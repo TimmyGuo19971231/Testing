@@ -120,7 +120,7 @@ public class App {
             }
         }
     }
-    private static void printOrderHistory() {
+    public static void printOrderHistory() {
         try {
             String filepath = "src/main/resources/OrderHistory.txt";
             FileProcessor fp = new FileProcessor();
@@ -187,7 +187,7 @@ public class App {
             if (option == 1) {
                 handleAddMenuItem(scanner);
             } else if (option == 2) {
-                handleUpdateMenuItem();
+                handleUpdateMenuItem(scanner);
             } else if (option == 3) {
                 handleDeleteMenuItem(scanner);
             } else if (option == 4) {
@@ -234,7 +234,7 @@ public class App {
         }
     }
 
-    private static void handleUpdateMenuItem() {
+    private static void handleUpdateMenuItem(Scanner scanner) {
         while (true) {
             System.out.println("Pick a menu to update item from or press 0 to go back:");
             for (int i = 0; i < menus.size(); i++) {

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="assignment1.AppTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-09-16T12:24:02" hostname="LAPTOP-PTKCQKJJ" time="0.144">
+<testsuite name="assignment1.AppTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-09-16T12:58:44" hostname="LAPTOP-PTKCQKJJ" time="0.208">
   <properties/>
-  <testcase name="testCheckout()" classname="assignment1.AppTest" time="0.108"/>
-  <testcase name="testMainMenuOption3NotAdmin()" classname="assignment1.AppTest" time="0.004"/>
-  <testcase name="testMainMenuOption3Admin()" classname="assignment1.AppTest" time="0.008"/>
-  <testcase name="testMainMenuOptionFalse()" classname="assignment1.AppTest" time="0.002"/>
-  <testcase name="testViewCartBackMainMenu()" classname="assignment1.AppTest" time="0.008"/>
-  <testcase name="testMenuOrderingDoNothing()" classname="assignment1.AppTest" time="0.009"/>
+  <testcase name="testCheckout()" classname="assignment1.AppTest" time="0.111"/>
+  <testcase name="testMainMenuOption3NotAdmin()" classname="assignment1.AppTest" time="0.003"/>
+  <testcase name="testPrintOrderHistory()" classname="assignment1.AppTest" time="0.013"/>
+  <testcase name="testUpdateMenu()" classname="assignment1.AppTest" time="0.012"/>
+  <testcase name="testMainMenuOption3Admin()" classname="assignment1.AppTest" time="0.003"/>
+  <testcase name="testOrderItems()" classname="assignment1.AppTest" time="0.026"/>
+  <testcase name="testDeleteMenuItem()" classname="assignment1.AppTest" time="0.008"/>
+  <testcase name="testMainMenuOptionFalse()" classname="assignment1.AppTest" time="0.001"/>
+  <testcase name="testViewCartBackMainMenu()" classname="assignment1.AppTest" time="0.016"/>
+  <testcase name="testMenuOrderingDoNothing()" classname="assignment1.AppTest" time="0.007"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -90,4 +90,43 @@ public class AppTest {
         App.mainMenu(scanner);
         assertTrue(outContent.toString().contains("Exiting Program..."));
     }
+
+    @Test
+    void testDeleteMenuItem() {
+        String input = "3\nTimmy\n123456\n3\n1\n1\nyes\n4\n4\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        App.init(); // Add this line
+        App.mainMenu(new Scanner(System.in));
+        assertTrue(outContent.toString().contains("Menu item deleted successfully"));
+    }
+
+
+    @Test
+    void testUpdateMenu() {
+        String input = "3\nTimmy\n123456\n2\n1\n1\nname\nhotDog\n4\n4\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        App.init();
+        App.mainMenu(new Scanner(System.in));
+        assertTrue(outContent.toString().contains("Menu item updated successfully"));
+    }
+
+    @Test
+    void testOrderItems(){
+        String input = "1\n1\n1\n1\n1\n0\n0\n3\n4\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        App.init();
+        App.mainMenu(new Scanner(System.in));
+        assertTrue(outContent.toString().contains("Item added to cart"));
+    }
+
+    @Test
+    void testPrintOrderHistory(){
+
+        App.init();
+        App.printOrderHistory();
+        assertTrue(outContent.toString().contains("Burger, Delicious beef burger, 5.99"));
+    }
 }

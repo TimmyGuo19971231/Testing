@@ -10,13 +10,13 @@ import java.io.*;
 <span class="fc" id="L10">    public static int counter = 1;</span>
 
     public void addItem(MenuItem item) {
-<span class="nc" id="L13">        items.add(item);</span>
+<span class="fc" id="L13">        items.add(item);</span>
         try {
-<span class="nc" id="L15">            saveToFile(filepath);</span>
+<span class="fc" id="L15">            saveToFile(filepath);</span>
 <span class="nc" id="L16">        } catch (IOException e) {</span>
 <span class="nc" id="L17">            e.printStackTrace();</span>
-<span class="nc" id="L18">        }</span>
-<span class="nc" id="L19">    }</span>
+<span class="fc" id="L18">        }</span>
+<span class="fc" id="L19">    }</span>
 
     public void removeItem(MenuItem item) {
 <span class="nc" id="L22">        items.remove(item);</span>
@@ -32,12 +32,12 @@ import java.io.*;
 <span class="fc" id="L32">    }</span>
 
     public void saveToFile(String filename) throws IOException {
-<span class="nc" id="L35">        try (PrintWriter out = new PrintWriter(filename)) {</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">            for (MenuItem item : items) {</span>
-<span class="nc" id="L37">                System.out.println(item.getName() + &quot;,&quot; + item.getDescription() + &quot;,&quot; + item.getPrice());</span>
-<span class="nc" id="L38">            }</span>
+<span class="fc" id="L35">        try (PrintWriter out = new PrintWriter(filename)) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            for (MenuItem item : items) {</span>
+<span class="fc" id="L37">                System.out.println(item.getName() + &quot;,&quot; + item.getDescription() + &quot;,&quot; + item.getPrice());</span>
+<span class="fc" id="L38">            }</span>
         }
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L40">    }</span>
 
     public void loadFromFile(String filename) throws FileNotFoundException {
 <span class="nc" id="L43">        try (Scanner scanner = new Scanner(new File(filename))) {</span>
