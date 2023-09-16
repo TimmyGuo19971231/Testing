@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">assignment1</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package assignment1;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+<span class="nc" id="L8">public class App {</span>
+    public static final String filepath = &quot;src/main/resources/User.txt&quot;;
+<span class="fc" id="L10">    private static Scanner scanner = new Scanner(System.in);</span>
+<span class="fc" id="L11">    private static List&lt;Menu&gt; menus = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L12">    private static Cart currentCart = new Cart();</span>
+<span class="fc" id="L13">    private static OrderHistory orderHistory = new OrderHistory();</span>
+<span class="fc" id="L14">    private static boolean loop = true;</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L17">        init();</span>
+<span class="nc" id="L18">        mainMenu(scanner);</span>
+
+<span class="nc" id="L20">    }</span>
+
+    private static void init(){
+        try {
+<span class="nc" id="L24">            File categoriesFile = new File(&quot;src/main/resources/Categories.txt&quot;);</span>
+<span class="nc" id="L25">            Scanner fileScanner = new Scanner(categoriesFile);</span>
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            while (fileScanner.hasNextLine()) {</span>
+<span class="nc" id="L28">                String category = fileScanner.nextLine().trim();</span>
+<span class="nc" id="L29">                String formattedCategory = Character.toUpperCase(category.charAt(0))</span>
+<span class="nc" id="L30">                        + category.substring(1).replace(&quot;.txt&quot;, &quot;&quot;);</span>
+<span class="nc" id="L31">                Menu menu = new Menu(formattedCategory);</span>
+<span class="nc" id="L32">                menu.loadFromFile(&quot;src/main/resources/categories/&quot; + category);</span>
+<span class="nc" id="L33">                menus.add(menu);</span>
+<span class="nc" id="L34">            }</span>
+<span class="nc" id="L35">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc" id="L38">    }</span>
+
+    public static void mainMenu(Scanner scanner) {
+
+<span class="fc" id="L42">        System.out.println(&quot;Pick from these options:\n1. Menu Ordering\n2. Order History\n3. Login as admin&quot;);</span>
+<span class="fc" id="L43">        int option = scanner.nextInt();</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (option == 1) {</span>
+<span class="nc" id="L45">            handleMenuOrdering();</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        } else if (option == 2) {</span>
+<span class="nc" id="L47">            printOrderHistory();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        } else if (option == 3) {</span>
+<span class="fc" id="L49">            handleAdminLogin(scanner);</span>
+        } else{
+<span class="fc" id="L51">            System.out.println(&quot;Exiting Program...&quot;);</span>
+<span class="fc" id="L52">            return;</span>
+        }
+<span class="fc" id="L54">    }</span>
+    
+    private static void handleMenuItems(Menu menu,Scanner scanner) {
+<span class="nc" id="L57">        List&lt;MenuItem&gt; items = menu.getItems();</span>
+        while (true) {
+<span class="nc" id="L59">            System.out.println(&quot;Here are the items in the selected menu:&quot;);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            for (int i = 0; i &lt; items.size(); i++) {</span>
+<span class="nc" id="L61">                System.out.println((i + 1) + &quot;. &quot; + items.get(i).getName());</span>
+            }
+<span class="nc" id="L63">            System.out.println(&quot;Press 0 to go back to menu categories\nPress C to go to cart&quot;);</span>
+<span class="nc" id="L64">            String option = scanner.next();</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (option.equals(&quot;0&quot;)) {</span>
+<span class="nc" id="L66">                return;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">            } else if (option.equalsIgnoreCase(&quot;C&quot;)) {</span>
+<span class="nc" id="L68">                handleViewCart();</span>
+<span class="nc" id="L69">                return;</span>
+            } else {
+<span class="nc" id="L71">                int itemIndex = Integer.parseInt(option) - 1;</span>
+<span class="nc" id="L72">                handleOrderItem(items.get(itemIndex),scanner);</span>
+            }
+<span class="nc" id="L74">        }</span>
+    }
+
+    private static void handleOrderItem(MenuItem item,Scanner scanner) {
+<span class="nc" id="L78">        System.out.println(&quot;You have selected &quot; + item.getName() + &quot;\nSelect quantity:&quot;);</span>
+<span class="nc" id="L79">        int quantity = scanner.nextInt();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (int i = 0; i &lt; quantity; i++) {</span>
+<span class="nc" id="L81">            currentCart.addItem(item);</span>
+        }
+<span class="nc" id="L83">        System.out.println(&quot;Item added to cart&quot;);</span>
+<span class="nc" id="L84">    }</span>
+    
+    private static void handleMenuOrdering() {
+        while (true) {
+<span class="nc" id="L88">            System.out.println(</span>
+                    &quot;Menu ordering [pick option]\n1. List menu categories\n2. View cart\n3. Back to main menu&quot;);
+<span class="nc" id="L90">            int option = scanner.nextInt();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (option == 1) {</span>
+<span class="nc" id="L92">                handleMenuCategories(scanner);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            } else if (option == 2) {</span>
+<span class="nc" id="L94">                handleViewCart();</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            } else if (option == 3) {</span>
+<span class="nc" id="L96">                return;</span>
+            }
+<span class="nc" id="L98">        }</span>
+    }
+    private static void handleMenuCategories(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L102">            System.out.println(&quot;Here are the following menu categories, select from below to order:&quot;);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            for (int i = 0; i &lt; menus.size(); i++) {</span>
+<span class="nc" id="L104">                System.out.println((i + 1) + &quot;. &quot; + menus.get(i).getName());</span>
+            }
+<span class="nc" id="L106">            System.out.println(&quot;Press 0 to go back to categories\nPress C to go to cart&quot;);</span>
+<span class="nc" id="L107">            String option = scanner.next();</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (option.equals(&quot;0&quot;)) {</span>
+<span class="nc" id="L109">                return;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            } else if (option.equalsIgnoreCase(&quot;C&quot;)) {</span>
+<span class="nc" id="L111">                handleViewCart();</span>
+<span class="nc" id="L112">                return;</span>
+            } else {
+<span class="nc" id="L114">                int menuIndex = Integer.parseInt(option) - 1;</span>
+<span class="nc" id="L115">                handleMenuItems(menus.get(menuIndex),scanner);</span>
+            }
+<span class="nc" id="L117">        }</span>
+    }
+    private static void printOrderHistory() {
+        try {
+<span class="nc" id="L121">            String filepath = &quot;src/main/resources/OrderHistory.txt&quot;;</span>
+<span class="nc" id="L122">            FileProcessor fp = new FileProcessor();</span>
+<span class="nc" id="L123">            List&lt;String&gt; data = fp.readMenuData(filepath);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            for (String order : data) {</span>
+<span class="nc" id="L125">                System.out.println(order);</span>
+<span class="nc" id="L126">            }</span>
+<span class="nc" id="L127">        } catch (Exception e) {</span>
+<span class="nc" id="L128">            e.printStackTrace();</span>
+<span class="nc" id="L129">        }</span>
+<span class="nc" id="L130">    }</span>
+
+    private static void handleAdminLogin(Scanner scanner) {
+<span class="fc" id="L133">        ArrayList&lt;String[]&gt; adminUsers = getAdminUsers();</span>
+
+<span class="fc" id="L135">        System.out.println(&quot;Enter username:&quot;);</span>
+<span class="fc" id="L136">        String username = scanner.next();</span>
+<span class="fc" id="L137">        System.out.println(&quot;Enter password:&quot;);</span>
+<span class="fc" id="L138">        String password = scanner.next();</span>
+
+<span class="fc" id="L140">        boolean isValidAdmin = false;</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        for (String[] user : adminUsers) {</span>
+<span class="pc bpc" id="L142" title="1 of 4 branches missed.">            if (user[0].equals(username) &amp;&amp; user[1].equals(password)) {</span>
+<span class="fc" id="L143">                isValidAdmin = true;</span>
+<span class="fc" id="L144">                break;</span>
+            }
+<span class="fc" id="L146">        }</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (isValidAdmin) {</span>
+<span class="fc" id="L148">            handleAdminMenu(scanner);</span>
+<span class="fc" id="L149">            System.out.println(&quot;Admin menu&quot;);</span>
+        } else {
+<span class="fc" id="L151">            System.out.println(&quot;Invalid username or password&quot;);</span>
+        }
+<span class="fc" id="L153">    }</span>
+
+    private static ArrayList&lt;String[]&gt; getAdminUsers() {
+<span class="fc" id="L156">        ArrayList&lt;String[]&gt; adminUsers = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="fc" id="L158">            File file = new File(&quot;./src/main/resources/User.txt&quot;);</span>
+<span class="fc" id="L159">            Scanner fileScanner = new Scanner(file);</span>
+
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            while (fileScanner.hasNextLine()) {</span>
+<span class="fc" id="L162">                String line = fileScanner.nextLine().trim();</span>
+<span class="fc" id="L163">                String[] user = line.split(&quot;,&quot;);</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                if (user[2].equals(&quot;A&quot;)) {</span>
+<span class="fc" id="L165">                    adminUsers.add(new String[] { user[0], user[1] });</span>
+                }
+<span class="fc" id="L167">            }</span>
+<span class="fc" id="L168">            fileScanner.close();</span>
+<span class="nc" id="L169">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L170">            e.printStackTrace();</span>
+<span class="fc" id="L171">        }</span>
+<span class="fc" id="L172">        return adminUsers;</span>
+    }
+
+    private static void handleAdminMenu(Scanner scanner) {
+<span class="fc" id="L176">        System.out.println(&quot;Welcome Admin&quot;);</span>
+<span class="fc" id="L177">        System.out.println(&quot;So far there have been &quot; + orderHistory.getOrders().size() + &quot; orders processed&quot;);</span>
+
+        while (true) {
+<span class="fc" id="L180">            System.out.println(</span>
+                    &quot;Pick from these options:\n1. Add menu item\n2. Update menu item\n3. Delete menu item\n4. Back to main menu&quot;);
+<span class="fc" id="L182">            int option = scanner.nextInt();</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">            if (option == 1) {</span>
+<span class="nc" id="L184">                handleAddMenuItem(scanner);</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">            } else if (option == 2) {</span>
+<span class="nc" id="L186">                handleUpdateMenuItem();</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">            } else if (option == 3) {</span>
+<span class="nc" id="L188">                handleDeleteMenuItem();</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">            } else if (option == 4) {</span>
+<span class="fc" id="L190">                return;</span>
+            }
+<span class="nc" id="L192">        }</span>
+    }
+
+    private static void handleCheckout() {
+<span class="nc" id="L196">        System.out.println(&quot;Select Delivery or pickup:\n1. Delivery\n2. Pickup&quot;);</span>
+<span class="nc" id="L197">        int deliveryOption = scanner.nextInt();</span>
+<span class="nc" id="L198">        System.out.println(&quot;Confirm order? yes or no&quot;);</span>
+<span class="nc" id="L199">        String confirm = scanner.next();</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (confirm.equalsIgnoreCase(&quot;yes&quot;)) {</span>
+<span class="nc" id="L201">            System.out.println(&quot;Congrats for your successful order&quot;);</span>
+<span class="nc" id="L202">            handleOrderHistory();</span>
+<span class="nc" id="L203">            currentCart.clearItems();</span>
+<span class="nc" id="L204">            mainMenu(scanner);</span>
+        }
+<span class="nc" id="L206">    }</span>
+
+    private static void handleAddMenuItem(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L210">            System.out.println(&quot;Pick a menu to add item to or press 0 to go back:&quot;);</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">            for (int i = 0; i &lt; menus.size(); i++) {</span>
+<span class="nc" id="L212">                System.out.println((i + 1) + &quot;. &quot; + menus.get(i).getName());</span>
+            }
+<span class="nc" id="L214">            int option = scanner.nextInt();</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">            if (option == 0) {</span>
+<span class="nc" id="L216">                return;</span>
+            } else {
+<span class="nc" id="L218">                Menu selectedMenu = menus.get(option - 1);</span>
+<span class="nc" id="L219">                System.out.println(&quot;Enter name of the menu item:&quot;);</span>
+<span class="nc" id="L220">                String name = scanner.next();</span>
+<span class="nc" id="L221">                System.out.println(&quot;Enter description of the menu item:&quot;);</span>
+<span class="nc" id="L222">                String description = scanner.next();</span>
+<span class="nc" id="L223">                System.out.println(&quot;Enter price of the menu item:&quot;);</span>
+<span class="nc" id="L224">                double price = scanner.nextDouble();</span>
+<span class="nc" id="L225">                MenuItem newItem = new MenuItem(name, description, price);</span>
+<span class="nc" id="L226">                selectedMenu.addMenuItem(newItem);</span>
+<span class="nc" id="L227">                System.out.println(&quot;Menu item added successfully&quot;);</span>
+<span class="nc" id="L228">                return;</span>
+            }
+        }
+    }
+
+    private static void handleUpdateMenuItem() {
+        while (true) {
+<span class="nc" id="L235">            System.out.println(&quot;Pick a menu to update item from or press 0 to go back:&quot;);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">            for (int i = 0; i &lt; menus.size(); i++) {</span>
+<span class="nc" id="L237">                System.out.println((i + 1) + &quot;. &quot; + menus.get(i).getName());</span>
+            }
+<span class="nc" id="L239">            int option = scanner.nextInt();</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            if (option == 0) {</span>
+<span class="nc" id="L241">                return;</span>
+            } else {
+<span class="nc" id="L243">                Menu selectedMenu = menus.get(option - 1);</span>
+<span class="nc" id="L244">                System.out.println(&quot;Pick a menu item to update:&quot;);</span>
+<span class="nc" id="L245">                List&lt;MenuItem&gt; items = selectedMenu.getItems();</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">                for (int i = 0; i &lt; items.size(); i++) {</span>
+<span class="nc" id="L247">                    System.out.println((i + 1) + &quot;. &quot; + items.get(i).getName());</span>
+                }
+<span class="nc" id="L249">                int itemOption = scanner.nextInt();</span>
+<span class="nc" id="L250">                MenuItem selectedItem = items.get(itemOption - 1);</span>
+<span class="nc" id="L251">                System.out.println(&quot;Enter field to edit (name, description, price):&quot;);</span>
+<span class="nc" id="L252">                String field = scanner.next();</span>
+<span class="nc" id="L253">                System.out.println(&quot;Enter new value:&quot;);</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">                if (field.equalsIgnoreCase(&quot;name&quot;)) {</span>
+<span class="nc" id="L255">                    selectedItem.setName(scanner.next());</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                } else if (field.equalsIgnoreCase(&quot;description&quot;)) {</span>
+<span class="nc" id="L257">                    selectedItem.setDescription(scanner.next());</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                } else if (field.equalsIgnoreCase(&quot;price&quot;)) {</span>
+<span class="nc" id="L259">                    selectedItem.setPrice(scanner.nextDouble());</span>
+                }
+<span class="nc" id="L261">                System.out.println(&quot;Menu item updated successfully&quot;);</span>
+<span class="nc" id="L262">                return;</span>
+            }
+        }
+    }
+
+    private static void handleDeleteMenuItem() {
+        while (true) {
+<span class="nc" id="L269">            System.out.println(&quot;Pick a menu to delete item from or press 0 to go back:&quot;);</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">            for (int i = 0; i &lt; menus.size(); i++) {</span>
+<span class="nc" id="L271">                System.out.println((i + 1) + &quot;. &quot; + menus.get(i).getName());</span>
+            }
+<span class="nc" id="L273">            int option = scanner.nextInt();</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">            if (option == 0) {</span>
+<span class="nc" id="L275">                return;</span>
+            } else {
+<span class="nc" id="L277">                Menu selectedMenu = menus.get(option - 1);</span>
+<span class="nc" id="L278">                System.out.println(&quot;Pick a menu item to delete:&quot;);</span>
+<span class="nc" id="L279">                List&lt;MenuItem&gt; items = selectedMenu.getItems();</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">                for (int i = 0; i &lt; items.size(); i++) {</span>
+<span class="nc" id="L281">                    System.out.println((i + 1) + &quot;. &quot; + items.get(i).getName());</span>
+                }
+<span class="nc" id="L283">                int itemOption = scanner.nextInt();</span>
+<span class="nc" id="L284">                MenuItem selectedItem = items.get(itemOption - 1);</span>
+<span class="nc" id="L285">                System.out.println(&quot;Are you sure you want to delete this item? (yes/no)&quot;);</span>
+<span class="nc" id="L286">                String confirm = scanner.next();</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">                if (confirm.equalsIgnoreCase(&quot;yes&quot;)) {</span>
+<span class="nc" id="L288">                    selectedMenu.removeMenuItem(selectedItem);</span>
+<span class="nc" id="L289">                    System.out.println(&quot;Menu item deleted successfully&quot;);</span>
+                }
+<span class="nc" id="L291">                return;</span>
+            }
+        }
+    }
+
+    private static void handleOrderHistory() {
+<span class="nc" id="L297">        String filepath = &quot;src/main/resources/OrderHistory.txt&quot;;</span>
+        try {
+<span class="nc" id="L299">            Writer writer = new FileWriter(filepath, true);</span>
+<span class="nc" id="L300">            writer.write(currentCart.toString());</span>
+<span class="nc" id="L301">            writer.close();</span>
+<span class="nc" id="L302">        } catch (Exception e) {</span>
+<span class="nc" id="L303">            e.printStackTrace();</span>
+<span class="nc" id="L304">        }</span>
+
+<span class="nc" id="L306">    }</span>
+
+    private static void handleViewCart() {
+<span class="nc" id="L309">        List&lt;MenuItem&gt; cartItems = currentCart.getItems();</span>
+        while (true) {
+<span class="nc" id="L311">            System.out.println(&quot;Here are the items in your cart:&quot;);</span>
+<span class="nc bnc" id="L312" title="All 2 branches missed.">            for (int i = 0; i &lt; cartItems.size(); i++) {</span>
+<span class="nc" id="L313">                System.out.println((i + 1) + &quot;. &quot; + cartItems.get(i).getName() + &quot; - &quot; + cartItems.get(i).getPrice());</span>
+            }
+<span class="nc" id="L315">            System.out.println(</span>
+                    &quot;Press 0 to go back to main menu\nPress D to delete an item from the cart\nPress C to checkout&quot;);
+<span class="nc" id="L317">            String option = scanner.next();</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">            if (option.equalsIgnoreCase(&quot;C&quot;)) {</span>
+<span class="nc" id="L319">                handleCheckout();</span>
+<span class="nc" id="L320">                break;</span>
+            }
+<span class="nc bnc" id="L322" title="All 2 branches missed.">            if (option.equalsIgnoreCase(&quot;D&quot;)) {</span>
+<span class="nc" id="L323">                System.out.println(&quot;Enter the item number to delete:&quot;);</span>
+<span class="nc" id="L324">                int itemNumber = scanner.nextInt();</span>
+<span class="nc" id="L325">                option = &quot;D&quot; + itemNumber;</span>
+            }
+<span class="nc bnc" id="L327" title="All 2 branches missed.">            if (option.equals(&quot;0&quot;)) {</span>
+<span class="nc" id="L328">                return;</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">            } else if (option.startsWith(&quot;D&quot;)) {</span>
+<span class="nc" id="L330">                int itemIndex = Integer.parseInt(option.substring(1)) - 1;</span>
+<span class="nc" id="L331">                currentCart.removeItem(cartItems.get(itemIndex));</span>
+<span class="nc" id="L332">                System.out.println(&quot;Item removed from cart&quot;);</span>
+            }
+<span class="nc" id="L334">        }</span>
+<span class="nc" id="L335">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

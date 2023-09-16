@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="assignment1.AppTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-09-16T10:07:49" hostname="LAPTOP-PTKCQKJJ" time="0.086">
+  <properties/>
+  <testcase name="testMainMenuOption3NotAdmin()" classname="assignment1.AppTest" time="0.071"/>
+  <testcase name="testMainMenuOption3AdminDoNothing()" classname="assignment1.AppTest" time="0.012"/>
+  <testcase name="testMainMenuOptionFalse()" classname="assignment1.AppTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="assignment1.AppTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-09-16T06:03:02" hostname="LAPTOP-PTKCQKJJ" time="0.076">
-  <properties/>
-  <testcase name="testMainMenuOptionFalse()" classname="assignment1.AppTest" time="0.069"/>
-  <testcase name="testMainMenuOption3()" classname="assignment1.AppTest" time="0.005"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

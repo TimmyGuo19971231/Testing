@@ -1,3 +1,0 @@
-main.txt
-snacks.txt
-drinks.txt
