@@ -1,0 +1,3 @@
+Burger2,Delicious beef burger,5.99
+Pizza2,Cheesy pepperoni pizza,7.99
+Pasta2,Spaghetti with marinara sauce,6.99

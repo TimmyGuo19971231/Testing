@@ -1,0 +1,48 @@
+1. Cart contains:
+Burger1, Delicious beef burger, 5.99
+Pasta1, Spaghetti with marinara sauce, 6.99
+Pasta1, Spaghetti with marinara sauce, 6.99
+Total amount: 19.97
+
+1. Cart contains:
+Burger1, Delicious beef burger, 5.99
+Burger1, Delicious beef burger, 5.99
+Total amount: 11.98
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Burger, Delicious beef burger, 5.99
+Total amount: 11.98
+
+2. Cart contains:
+Burger, Delicious beef burger, 5.99
+Pizza, Cheesy pepperoni pizza, 7.99
+Pasta, Spaghetti with marinara sauce, 6.99
+Total amount: 20.97
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Total amount: 5.99
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Total amount: 5.99
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Burger, Delicious beef burger, 5.99
+Total amount: 11.98
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Total amount: 5.99
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Burger, Delicious beef burger, 5.99
+Total amount: 11.98
+
+1. Cart contains:
+Burger, Delicious beef burger, 5.99
+Total amount: 5.99
+

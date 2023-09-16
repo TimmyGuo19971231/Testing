@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cart.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">assignment1</a> &gt; <span class="el_source">Cart.java</span></div><h1>Cart.java</h1><pre class="source lang-java linenums">package assignment1;
+
+import assignment1.*;
+import java.util.*;
+import java.io.*;
+
+<span class="fc" id="L7">public class Cart {</span>
+    public static final String filepath = &quot;src/main/resources/Cart.txt&quot;;
+<span class="fc" id="L9">    private List&lt;MenuItem&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L10">    public static int counter = 1;</span>
+
+    public void addItem(MenuItem item) {
+<span class="nc" id="L13">        items.add(item);</span>
+        try {
+<span class="nc" id="L15">            saveToFile(filepath);</span>
+<span class="nc" id="L16">        } catch (IOException e) {</span>
+<span class="nc" id="L17">            e.printStackTrace();</span>
+<span class="nc" id="L18">        }</span>
+<span class="nc" id="L19">    }</span>
+
+    public void removeItem(MenuItem item) {
+<span class="nc" id="L22">        items.remove(item);</span>
+        try {
+<span class="nc" id="L24">            saveToFile(filepath);</span>
+<span class="nc" id="L25">        } catch (IOException e) {</span>
+<span class="nc" id="L26">            e.printStackTrace();  // or some other meaningful action</span>
+<span class="nc" id="L27">        }</span>
+<span class="nc" id="L28">    }</span>
+
+    public void clearItems() {
+<span class="nc" id="L31">        this.items = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L32">    }</span>
+
+    public void saveToFile(String filename) throws IOException {
+<span class="nc" id="L35">        try (PrintWriter out = new PrintWriter(filename)) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            for (MenuItem item : items) {</span>
+<span class="nc" id="L37">                System.out.println(item.getName() + &quot;,&quot; + item.getDescription() + &quot;,&quot; + item.getPrice());</span>
+<span class="nc" id="L38">            }</span>
+        }
+<span class="nc" id="L40">    }</span>
+
+    public void loadFromFile(String filename) throws FileNotFoundException {
+<span class="nc" id="L43">        try (Scanner scanner = new Scanner(new File(filename))) {</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            while (scanner.hasNextLine()) {</span>
+<span class="nc" id="L45">                String[] parts = scanner.nextLine().split(&quot;,&quot;);</span>
+<span class="nc" id="L46">                addItem(new MenuItem(parts[0], parts[1], Double.parseDouble(parts[2])));</span>
+<span class="nc" id="L47">            }</span>
+        }
+<span class="nc" id="L49">    }</span>
+
+    public List&lt;MenuItem&gt; getItems() {
+<span class="nc" id="L52">        return items;</span>
+    }
+
+    public double getTotalAmount() {
+<span class="nc" id="L56">        double total = 0;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (MenuItem item : items) {</span>
+<span class="nc" id="L58">            total += item.getPrice();</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">        return total;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L65">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L66">        sb.append(counter).append(&quot;. &quot;).append(&quot;Cart contains:\n&quot;);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        for (MenuItem item : items) {</span>
+<span class="nc" id="L68">            sb.append(item.getName()).append(&quot;, &quot;).append(item.getDescription()).append(&quot;, &quot;).append(item.getPrice()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">        sb.append(&quot;Total amount: &quot;).append(getTotalAmount());</span>
+<span class="nc" id="L71">        sb.append(&quot;\n&quot;);</span>
+<span class="nc" id="L72">        sb.append(&quot;\n&quot;);</span>
+<span class="nc" id="L73">        counter++;</span>
+<span class="nc" id="L74">        return sb.toString();</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
