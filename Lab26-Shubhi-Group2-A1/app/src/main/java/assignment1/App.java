@@ -19,7 +19,7 @@ public class App {
 
     }
 
-    private static void init(){
+    public static void init(){
         try {
             File categoriesFile = new File("src/main/resources/Categories.txt");
             Scanner fileScanner = new Scanner(categoriesFile);
@@ -38,19 +38,21 @@ public class App {
     }
 
     public static void mainMenu(Scanner scanner) {
-
-        System.out.println("Pick from these options:\n1. Menu Ordering\n2. Order History\n3. Login as admin");
-        int option = scanner.nextInt();
-        if (option == 1) {
-            handleMenuOrdering();
-        } else if (option == 2) {
-            printOrderHistory();
-        } else if (option == 3) {
-            handleAdminLogin(scanner);
-        } else{
-            System.out.println("Exiting Program...");
-            return;
+        while (true){
+            System.out.println("Pick from these options:\n1. Menu Ordering\n2. Order History\n3. Login as admin");
+            int option = scanner.nextInt();
+            if (option == 1) {
+                handleMenuOrdering(scanner);
+            } else if (option == 2) {
+                printOrderHistory();
+            } else if (option == 3) {
+                handleAdminLogin(scanner);
+            } else if (option == 4){
+                System.out.println("Exiting Program...");
+                return;
+            }
         }
+
     }
     
     private static void handleMenuItems(Menu menu,Scanner scanner) {
@@ -65,7 +67,7 @@ public class App {
             if (option.equals("0")) {
                 return;
             } else if (option.equalsIgnoreCase("C")) {
-                handleViewCart();
+                handleViewCart(scanner);
                 return;
             } else {
                 int itemIndex = Integer.parseInt(option) - 1;
@@ -83,15 +85,17 @@ public class App {
         System.out.println("Item added to cart");
     }
     
-    private static void handleMenuOrdering() {
+    private static void handleMenuOrdering(Scanner scanner) {
         while (true) {
             System.out.println(
                     "Menu ordering [pick option]\n1. List menu categories\n2. View cart\n3. Back to main menu");
+
             int option = scanner.nextInt();
             if (option == 1) {
                 handleMenuCategories(scanner);
             } else if (option == 2) {
-                handleViewCart();
+                handleViewCart(scanner);
+                return;
             } else if (option == 3) {
                 return;
             }
@@ -108,7 +112,7 @@ public class App {
             if (option.equals("0")) {
                 return;
             } else if (option.equalsIgnoreCase("C")) {
-                handleViewCart();
+                handleViewCart(scanner);
                 return;
             } else {
                 int menuIndex = Integer.parseInt(option) - 1;
@@ -185,14 +189,14 @@ public class App {
             } else if (option == 2) {
                 handleUpdateMenuItem();
             } else if (option == 3) {
-                handleDeleteMenuItem();
+                handleDeleteMenuItem(scanner);
             } else if (option == 4) {
                 return;
             }
         }
     }
 
-    private static void handleCheckout() {
+    private static void handleCheckout(Scanner scanner) {
         System.out.println("Select Delivery or pickup:\n1. Delivery\n2. Pickup");
         int deliveryOption = scanner.nextInt();
         System.out.println("Confirm order? yes or no");
@@ -201,7 +205,7 @@ public class App {
             System.out.println("Congrats for your successful order");
             handleOrderHistory();
             currentCart.clearItems();
-            mainMenu(scanner);
+//            mainMenu(scanner);
         }
     }
 
@@ -264,7 +268,7 @@ public class App {
         }
     }
 
-    private static void handleDeleteMenuItem() {
+    private static void handleDeleteMenuItem(Scanner scanner) {
         while (true) {
             System.out.println("Pick a menu to delete item from or press 0 to go back:");
             for (int i = 0; i < menus.size(); i++) {
@@ -273,23 +277,22 @@ public class App {
             int option = scanner.nextInt();
             if (option == 0) {
                 return;
-            } else {
-                Menu selectedMenu = menus.get(option - 1);
-                System.out.println("Pick a menu item to delete:");
-                List<MenuItem> items = selectedMenu.getItems();
-                for (int i = 0; i < items.size(); i++) {
-                    System.out.println((i + 1) + ". " + items.get(i).getName());
-                }
-                int itemOption = scanner.nextInt();
-                MenuItem selectedItem = items.get(itemOption - 1);
-                System.out.println("Are you sure you want to delete this item? (yes/no)");
-                String confirm = scanner.next();
-                if (confirm.equalsIgnoreCase("yes")) {
-                    selectedMenu.removeMenuItem(selectedItem);
-                    System.out.println("Menu item deleted successfully");
-                }
-                return;
             }
+            Menu selectedMenu = menus.get(option - 1);
+            System.out.println("Pick a menu item to delete:");
+            List<MenuItem> items = selectedMenu.getItems();
+            for (int i = 0; i < items.size(); i++) {
+                System.out.println((i + 1) + ". " + items.get(i).getName());
+            }
+            int itemOption = scanner.nextInt();
+            MenuItem selectedItem = items.get(itemOption - 1);
+            System.out.println("Are you sure you want to delete this item? (yes/no)");
+            String confirm = scanner.next();
+            if (confirm.equalsIgnoreCase("yes")) {
+                selectedMenu.removeMenuItem(selectedItem);
+                System.out.println("Menu item deleted successfully");
+            }
+            return;
         }
     }
 
@@ -305,7 +308,7 @@ public class App {
 
     }
 
-    private static void handleViewCart() {
+    private static void handleViewCart(Scanner scanner) {
         List<MenuItem> cartItems = currentCart.getItems();
         while (true) {
             System.out.println("Here are the items in your cart:");
@@ -316,8 +319,8 @@ public class App {
                     "Press 0 to go back to main menu\nPress D to delete an item from the cart\nPress C to checkout");
             String option = scanner.next();
             if (option.equalsIgnoreCase("C")) {
-                handleCheckout();
-                break;
+                handleCheckout(scanner);
+                return;
             }
             if (option.equalsIgnoreCase("D")) {
                 System.out.println("Enter the item number to delete:");

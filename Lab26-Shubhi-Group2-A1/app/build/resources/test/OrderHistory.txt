@@ -46,18 +46,3 @@ Total amount: 11.98
 Burger, Delicious beef burger, 5.99
 Total amount: 5.99
 
-1. Cart contains:
-Total amount: 0.0
-
-1. Cart contains:
-Total amount: 0.0
-
-1. Cart contains:
-Total amount: 0.0
-
-1. Cart contains:
-Total amount: 0.0
-
-1. Cart contains:
-Total amount: 0.0
-

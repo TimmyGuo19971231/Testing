@@ -25,8 +25,40 @@ public class AppTest {
     }
 
     @Test
-    public void testMainMenuOption3AdminDoNothing(){
-        String input = "3\nTimmy\n123456\n4";
+    public void testMenuOrderingDoNothing(){
+        String input = "1\n3\n4";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        App.init();
+        App.mainMenu(new Scanner(System.in));
+//        throw new RuntimeException("Actual output: " + outContent.toString());
+        assertTrue(outContent.toString().contains("Exiting Program..."));
+    }
+
+    @Test
+    public void testCheckout(){
+        String input = "1\n2\nc\n1\nyes\n4";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        App.init();
+        App.mainMenu(new Scanner(System.in));
+//        throw new RuntimeException("Actual output: " + outContent.toString());
+        assertTrue(outContent.toString().contains("Exiting Program..."));
+    }
+
+    @Test
+    public void testViewCartBackMainMenu(){
+        String input = "1\n2\n0\n4";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        App.init();
+        App.mainMenu(new Scanner(System.in));
+//        throw new RuntimeException("Actual output: " + outContent.toString());
+        assertTrue(outContent.toString().contains("Exiting Program..."));
+    }
+    @Test
+    public void testMainMenuOption3Admin(){
+        String input = "3\nTimmy\n123456\n4\n4";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
@@ -37,7 +69,7 @@ public class AppTest {
 
     @Test
     public void testMainMenuOption3NotAdmin(){
-        String input = "3\nadmin\npassword";
+        String input = "3\nadmin\npassword\n4";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
@@ -47,8 +79,8 @@ public class AppTest {
         assertTrue(outContent.toString().contains("Invalid username or password"));
 //        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 
-    }
 
+    }
     @Test
     public void testMainMenuOptionFalse() {
         String input = "4\n";

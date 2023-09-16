@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-<span class="nc" id="L12">    private List&lt;MenuItem&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L12">    private List&lt;MenuItem&gt; items = new ArrayList&lt;&gt;();</span>
     private String name;
 
-<span class="nc" id="L15">    public Menu(String name) {</span>
-<span class="nc" id="L16">        this.name = name;</span>
-<span class="nc" id="L17">    }</span>
+<span class="fc" id="L15">    public Menu(String name) {</span>
+<span class="fc" id="L16">        this.name = name;</span>
+<span class="fc" id="L17">    }</span>
 
     public String getName() {
 <span class="nc" id="L20">        return name;</span>
@@ -37,20 +37,20 @@ public class Menu {
     }
 
     public void loadFromFile(String categoryFilename) throws FileNotFoundException {
-<span class="nc" id="L40">        File file = new File(categoryFilename);</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="fc" id="L40">        File file = new File(categoryFilename);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (!file.exists()) {</span>
 <span class="nc" id="L42">            throw new FileNotFoundException(&quot;File not found: &quot; + categoryFilename);</span>
         }
-<span class="nc" id="L44">        try (Scanner scanner = new Scanner(file)) {</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">            while (scanner.hasNextLine()) {</span>
-<span class="nc" id="L46">                String[] parts = scanner.nextLine().split(&quot;,&quot;);</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">                if (parts.length &lt; 3) {</span>
+<span class="fc" id="L44">        try (Scanner scanner = new Scanner(file)) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            while (scanner.hasNextLine()) {</span>
+<span class="fc" id="L46">                String[] parts = scanner.nextLine().split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">                if (parts.length &lt; 3) {</span>
 <span class="nc" id="L48">                    continue;</span>
                 }
-<span class="nc" id="L50">                items.add(new MenuItem(parts[0], parts[1], Double.parseDouble(parts[2])));</span>
-<span class="nc" id="L51">            }</span>
+<span class="fc" id="L50">                items.add(new MenuItem(parts[0], parts[1], Double.parseDouble(parts[2])));</span>
+<span class="fc" id="L51">            }</span>
         }
-<span class="nc" id="L53">    }</span>
+<span class="fc" id="L53">    }</span>
 
     public void saveToFile(String categoryFilename) throws IOException {
 <span class="nc" id="L56">        try (PrintWriter out = new PrintWriter(categoryFilename)) {</span>
